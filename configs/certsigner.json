@@ -1,0 +1,8 @@
+{
+    "SignerName": "smartedge.org/certsigner",
+    "ControllerName": "smartedge",
+    "ResyncPeriod": "1m",
+    "CertTTL": "8760h",
+    "CaCertPath": "certs/cert.pem",
+    "CaKeyPath": "certs/key.pem"
+}

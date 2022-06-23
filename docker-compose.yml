@@ -1,0 +1,20 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2019-2020 Intel Corporation
+
+# TODO: Expose ports only to a local network address
+version: '3.2'
+services:
+  certsigner:
+    build:
+      context: ./dist/certsigner
+      args:
+        username: certsigner
+    image: "certsigner:${VER}"
+    read_only: true
+
+  certrequester:
+    build:
+      context: ./dist/certrequester
+      args:
+        username: certrequester
+    image: "certrequester:${VER}"

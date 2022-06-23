@@ -1,0 +1,13 @@
+{
+    "LogLevel": "info",
+    "UseSyslog": false,
+    "SyslogAddr": "",
+    "Enrollment": {
+        "Endpoint": "",
+        "CertsDirectory": "certs",
+        "ConnectionTimeout": "2s"
+    },
+    "Services": {
+        "github.com/smart-edge-open/edge-services/pkg/certsigner": "configs/certsigner.json"
+    }
+}

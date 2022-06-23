@@ -1,0 +1,67 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2019-2021 Intel Corporation
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smartedge-system-config
+  namespace: smartedge-system
+data:
+  http_proxy: ""
+  https_proxy: ""
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: certsigner
+  namespace: smartedge-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: certsigner
+  template:
+    metadata:
+      labels:
+        name: certsigner
+    spec:
+      serviceAccountName: csr-signer
+      containers:
+      - name: certsigner
+        image: certsigner:1.0
+        imagePullPolicy: Never
+        securityContext:
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: "0.1"
+          limits:
+            cpu: "1"
+            memory: "128Mi"
+        volumeMounts:
+          - name: root-ca
+            mountPath: /home/certsigner/certs
+          - name: configs
+            mountPath: /home/certsigner/configs
+      volumes:
+      - name: root-ca
+        secret:
+          secretName: root-ca
+      - name: configs
+        hostPath:
+          path: /opt/openness/configs
+      tolerations:
+      - effect: NoSchedule
+        key: cmk
+        operator: Exists
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "vcac-zone"
+                  operator: NotIn
+                  values:
+                    - "yes"
