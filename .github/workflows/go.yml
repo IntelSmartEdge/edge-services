@@ -1,0 +1,55 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.16
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Build using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc build
+
+    - name: Test
+      run: go test -v ./...
+
+#     - name: Setup ginkgo for make test
+#       run: go get github.com/onsi/ginkgo/v2/ginkgo
+
+#     - name: Test Go code using make
+#       run: |
+#         GOPATH=$(go env GOPATH) make clean && make -j$nproc test
+
+#     - name: Coverage tests on Go code using make
+#       run: |
+#         GOPATH=$(go env GOPATH) make clean && make -j$nproc test-cov
+
+    - name: Build certsigner image using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc certsigner
+ 
+    - name: Build certrequester image using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc certrequester
+
+    - name: Build networkedge image using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc networkedge
