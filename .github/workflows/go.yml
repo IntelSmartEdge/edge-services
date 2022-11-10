@@ -31,12 +31,12 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    - name: Setup ginkgo for make test
-      run: go get github.com/onsi/ginkgo/v2/ginkgo
+#     - name: Setup ginkgo for make test
+#       run: go get github.com/onsi/ginkgo/v2/ginkgo
 
-    - name: Test Go code using make
-      run: |
-        GOPATH=$(go env GOPATH) make clean && make -j$nproc test
+#     - name: Test Go code using make
+#       run: |
+#         GOPATH=$(go env GOPATH) make clean && make -j$nproc test
 
     - name: Coverage tests on Go code using make
       run: |
