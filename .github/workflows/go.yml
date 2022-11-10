@@ -24,9 +24,29 @@ jobs:
     - name: Build
       run: go build -v ./...
 
-    - name: build using make
+    - name: Build using make
       run: |
         GOPATH=$(go env GOPATH) make clean && make -j$nproc build
 
     - name: Test
       run: go test -v ./...
+
+    - name: Test Go code using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc test
+
+    - name: Coverage tests on Go code using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc test-cov
+
+    - name: Build certsigner image using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc certsigner
+ 
+    - name: Build certrequester image using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc certrequester
+
+    - name: Build networkedge image using make
+      run: |
+        GOPATH=$(go env GOPATH) make clean && make -j$nproc networkedge
