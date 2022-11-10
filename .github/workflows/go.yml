@@ -38,9 +38,9 @@ jobs:
 #       run: |
 #         GOPATH=$(go env GOPATH) make clean && make -j$nproc test
 
-    - name: Coverage tests on Go code using make
-      run: |
-        GOPATH=$(go env GOPATH) make clean && make -j$nproc test-cov
+#     - name: Coverage tests on Go code using make
+#       run: |
+#         GOPATH=$(go env GOPATH) make clean && make -j$nproc test-cov
 
     - name: Build certsigner image using make
       run: |
